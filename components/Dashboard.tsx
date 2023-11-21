@@ -32,6 +32,8 @@ const Dashboard = () => {
   const [taskData, setTaskData] = useState<Task>({ id: '', title: '', description: '', dueDate: '', status: '', points: 0, subTasks: [] });
   const [taskArray, setTaskArray] = useState<Task[]>([]);
   const [userInfo, setUserInfo] = useState<UserInfo>({ points: 0, level: 1 });
+  const [editMode, setEditMode] = useState(false);
+  const [editIndex, setEditIndex] = useState(-1);
 
   const tasks: Task[] = [
     { id: '1', title: 'Task 1', description: 'Description for Task 1', status: 'Completed', points: 10, dueDate: '2023-01-01', subTasks: [] },
@@ -50,8 +52,29 @@ const Dashboard = () => {
   };
 
   const handleAddTask = () => {
-    setTaskArray([...taskArray, taskData]);
+    if (editMode) {
+      const updatedTasks = [...taskArray];
+      updatedTasks[editIndex] = taskData;
+      setTaskArray(updatedTasks);
+      setEditMode(false);
+      setEditIndex(-1);
+    } else {
+      setTaskArray([...taskArray, taskData]);
+    }
     setShowDialog(false);
+  };
+
+  const handleEditTask = (index: number) => {
+    setEditMode(true);
+    setEditIndex(index);
+    setTaskData(taskArray[index]);
+    setShowDialog(true);
+  };
+
+  const handleDeleteTask = (index: number) => {
+    const updatedTasks = [...taskArray];
+    updatedTasks.splice(index, 1);
+    setTaskArray(updatedTasks);
   };
 
   const handleBuyItem = (item: ShopItem) => {
