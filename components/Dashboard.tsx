@@ -16,11 +16,6 @@ interface Task {
   subTasks?: SubTask[];
 }
 
-interface ShopItem {
-  name: string;
-  price: number;
-}
-
 interface UserInfo {
   points: number;
   level: number;
@@ -49,7 +44,32 @@ const Dashboard = () => {
 
   return (
     <div>
-      {/* Add your JSX here */}
+      <div className="mb-4">
+        <h2 className="text-2xl font-bold">User Info</h2>
+        <p>Points: {userInfo.points}</p>
+        <p>Level: {userInfo.level}</p>
+      </div>
+      <div>
+        <h2 className="text-2xl font-bold">Tasks</h2>
+        {taskArray.map((task, index) => (
+          <div key={task.id} className="mb-2">
+            <h3 className="text-xl">{task.title}</h3>
+            <p>{task.description}</p>
+            <p>Due Date: {task.dueDate}</p>
+            <p>Status: {task.status}</p>
+            <p>Points: {task.points}</p>
+            <button onClick={() => handleTaskStatusChange(index, 'Completed')}>
+              Mark as Completed
+            </button>
+            {task.subTasks && task.subTasks.map(subTask => (
+              <div key={subTask.id}>
+                <h4>{subTask.title}</h4>
+                <p>Points: {subTask.points}</p>
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
