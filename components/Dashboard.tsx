@@ -1,12 +1,19 @@
 import React, { useState, ChangeEvent } from 'react';
 
+interface SubTask {
+  id: string;
+  title: string;
+  points: number;
+}
+
 interface Task {
+  id: string;
   title: string;
   description: string;
   dueDate: string;
   status: string;
-  points: string;
-  subTasks?: Task[];
+  points: number;
+  subTasks?: SubTask[];
 }
 
 interface ShopItem {
@@ -22,13 +29,13 @@ interface UserInfo {
 const Dashboard = () => {
   const [showDialog, setShowDialog] = useState(false);
   const [showShopDialog, setShowShopDialog] = useState(false);
-  const [taskData, setTaskData] = useState<Task>({ title: '', description: '', dueDate: '', status: '', points: '' });
+  const [taskData, setTaskData] = useState<Task>({ id: '', title: '', description: '', dueDate: '', status: '', points: 0, subTasks: [] });
   const [taskArray, setTaskArray] = useState<Task[]>([]);
   const [userInfo, setUserInfo] = useState<UserInfo>({ points: 0, level: 1 });
 
-  const tasks = [
-    { title: 'Task 1', status: 'Completed', points: '10', dueDate: '2023-01-01' },
-    { title: 'Task 2', status: 'In Progress', points: '20', dueDate: '2023-02-01' },
+  const tasks: Task[] = [
+    { id: '1', title: 'Task 1', description: 'Description for Task 1', status: 'Completed', points: 10, dueDate: '2023-01-01', subTasks: [] },
+    { id: '2', title: 'Task 2', description: 'Description for Task 2', status: 'In Progress', points: 20, dueDate: '2023-02-01', subTasks: [] },
     // Add more tasks as needed
   ];
 
