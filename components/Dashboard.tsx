@@ -6,6 +6,7 @@ interface Task {
   dueDate: string;
   status: string;
   points: string;
+  subTasks?: Task[];
 }
 
 interface ShopItem {
@@ -13,10 +14,18 @@ interface ShopItem {
   price: number;
 }
 
+interface UserInfo {
+  points: number;
+  level: number;
+}
+
 const Dashboard = () => {
   const [showDialog, setShowDialog] = useState(false);
   const [showShopDialog, setShowShopDialog] = useState(false);
   const [taskData, setTaskData] = useState<Task>({ title: '', description: '', dueDate: '', status: '', points: '' });
+  const [taskArray, setTaskArray] = useState<Task[]>([]);
+  const [userInfo, setUserInfo] = useState<UserInfo>({ points: 0, level: 1 });
+
   const tasks = [
     { title: 'Task 1', status: 'Completed', points: '10', dueDate: '2023-01-01' },
     { title: 'Task 2', status: 'In Progress', points: '20', dueDate: '2023-02-01' },
@@ -34,7 +43,7 @@ const Dashboard = () => {
   };
 
   const handleAddTask = () => {
-    tasks.push(taskData);
+    setTaskArray([...taskArray, taskData]);
     setShowDialog(false);
   };
 
@@ -54,10 +63,6 @@ const Dashboard = () => {
             Shop
           </button>
         </div>
-        {/* Commenting out the entire block including the enclosing JSX syntax */}
-        {/* {showDialog && (
-          // Existing Add Task dialog code...
-        )} */}
         {showShopDialog && (
           <div className="overflow-y-auto inset-0 z-10 fixed" aria-labelledby="modal-title" role="dialog" aria-modal="true">
             <div className="sm:block sm:p-0 text-center px-4 pb-20 pt-4 min-h-screen justify-center items-end flex">
@@ -92,7 +97,6 @@ const Dashboard = () => {
             </div>
           </div>
         )}
-        {/* Existing code... */}
       </div>
     </div>
   );
