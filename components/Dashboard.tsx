@@ -82,6 +82,19 @@ const Dashboard = () => {
     console.log(`Bought ${item.name}`);
   };
 
+  const handleTaskStatusChange = (index: number, status: string) => {
+    const updatedTasks = [...taskArray];
+    updatedTasks[index].status = status;
+    if (status === 'Completed') {
+      setUserInfo(prevState => ({
+        ...prevState,
+        points: prevState.points + updatedTasks[index].points,
+        level: Math.floor((prevState.points + updatedTasks[index].points) / 100)
+      }));
+    }
+    setTaskArray(updatedTasks);
+  };
+
   return (
     <div className="md:flex-row flex flex-col">
       <div className="p-4 md:w-1/2">
